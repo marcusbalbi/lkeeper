@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "allowJs": true,
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "paths": {
+      "@src/*": ["./src/*"]
+    },
+    "rootDirs": [
+      "./src/**/"
+    ],
+    "esModuleInterop": true,
+    "experimentalDecorators": true
+  }
+}
