@@ -6,6 +6,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+import { IsEmail } from 'class-validator';
+
 import bcrypt from 'bcrypt';
 @Entity('users')
 export class User {
@@ -13,6 +15,7 @@ export class User {
   id: number;
 
   @Column()
+  @IsEmail()
   email: string;
 
   @Column({

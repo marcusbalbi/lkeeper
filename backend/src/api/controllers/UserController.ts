@@ -1,4 +1,5 @@
 import { User } from '@src/models/User';
+import { validateOrReject } from 'class-validator';
 import { Request, Response } from 'express';
 import { getRepository, Repository } from 'typeorm';
 import RestControllerContract from '../contracts/RestControllerContract';
@@ -26,10 +27,12 @@ export class UserController implements RestControllerContract {
       const user = new User();
       user.email = email;
       await user.setPassword(password);
+      await this.validate(user);
       await this.repository.save(user);
       res.status(200).json(user);
     } catch (err) {
-      res.status(500).json({ message: err.message });
+      console.log(err.name);
+      res.status(500).json({ errors: err });
     }
   }
   async update(req: Request, res: Response) {
@@ -38,6 +41,7 @@ export class UserController implements RestControllerContract {
       const { email, password } = req.body;
       user.email = email;
       await user.setPassword(password);
+      await this.validate(user);
       await this.repository.save(user);
       res.status(204).json();
     } catch (err) {
@@ -47,9 +51,14 @@ export class UserController implements RestControllerContract {
   async remove(req: Request, res: Response) {
     try {
       await this.repository.delete(req.params.id);
+      // remove all links from user ?
       res.status(204).json();
     } catch (err) {
       res.status(500).json({ message: err.message });
     }
+  }
+
+  async validate(user: User) {
+    return validateOrReject(user);
   }
 }
