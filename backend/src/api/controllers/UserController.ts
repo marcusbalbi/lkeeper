@@ -1,5 +1,7 @@
 import { Request, Response } from 'express';
-export class UserController {
+import RestControllerContract from '../contracts/RestControllerContract';
+
+export class UserController implements RestControllerContract {
   listAll(req: Request, res: Response) {
     res.status(200).json([]);
   }
