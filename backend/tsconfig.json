@@ -7,11 +7,10 @@
     "paths": {
       "@src/*": ["./src/*"]
     },
-    "rootDirs": [
-      "./src/**/"
-    ],
+    "rootDirs": ["./src/**/"],
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "typeRoots": ["./src/types/"],
   }
 }

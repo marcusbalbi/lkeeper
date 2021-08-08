@@ -38,7 +38,7 @@ export class User {
     this.password = hash;
   }
 
-  async compare(password, hash): Promise<boolean> {
-    return bcrypt.compare(password, hash, 10);
+  async compare(password): Promise<boolean> {
+    return bcrypt.compare(password, this.password);
   }
 }

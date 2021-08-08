@@ -1,4 +1,5 @@
 import userRoutes from '@src/api/routes/user.routes';
+import AuthRoutes from '@src/api/routes/auth.routes';
 import express from 'express';
 import morgan from 'morgan';
 import { createConnection } from 'typeorm';
@@ -19,6 +20,7 @@ const connection = createConnection({
 });
 connection.then(() => {
   console.log('connected do database');
+  app.use('/', AuthRoutes());
   app.use('/users', userRoutes());
 });
 app.use(morgan(':method :url :status :response-time ms'));
