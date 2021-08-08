@@ -2,12 +2,12 @@ const { pathsToModuleNameMapper } = require('ts-jest/utils');
 const { compilerOptions } = require('./tsconfig.json');
 
 module.exports = {
-  rootDir: './src',
+  rootDir: './',
   testEnvironment: 'node',
   // globalSetup: './common/tests/globalSetup.ts',
   // setupFilesAfterEnv: ['./common/tests/setup.ts'],
   coverageDirectory: '../tests/coverage',
-  collectCoverage: true,
+  collectCoverage: false,
   coverageReporters: ['html'],
   preset: 'ts-jest',
   moduleNameMapper: {

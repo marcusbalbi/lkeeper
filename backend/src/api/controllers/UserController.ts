@@ -25,14 +25,31 @@ export class UserController implements RestControllerContract {
       const { email, password } = req.body;
       const user = new User();
       user.email = email;
-      user.password = await user.hash(password);
-      console.log(user);
+      await user.setPassword(password);
       await this.repository.save(user);
       res.status(200).json(user);
     } catch (err) {
       res.status(500).json({ message: err.message });
     }
   }
-  update(req: Request, res: Response) {}
-  remove(req: Request, res: Response) {}
+  async update(req: Request, res: Response) {
+    try {
+      const user = await this.repository.findOneOrFail(req.params.id);
+      const { email, password } = req.body;
+      user.email = email;
+      await user.setPassword(password);
+      await this.repository.save(user);
+      res.status(204).json();
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  }
+  async remove(req: Request, res: Response) {
+    try {
+      await this.repository.delete(req.params.id);
+      res.status(204).json();
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  }
 }
