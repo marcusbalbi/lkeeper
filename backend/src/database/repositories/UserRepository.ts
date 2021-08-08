@@ -20,5 +20,7 @@ export class UserRepository implements UserRepositoryInterface {
       },
     });
   }
-  save(filter: any) {}
+  save(userData: any) {
+    return getConnection().getRepository(User).save(userData);
+  }
 }

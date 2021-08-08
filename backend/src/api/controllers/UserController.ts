@@ -1,19 +1,21 @@
 import { UserRepository } from '@src/database/repositories/UserRepository';
-import { FindUserUserCase } from '@src/UseCases/users/FindUserUserCase';
-import { ListUsersUseCase } from '@src/UseCases/users/ListUsersUsecase';
+import { UserService } from '@src/services/UserService';
 import { Request, Response } from 'express';
 import RestControllerContract from '../contracts/RestControllerContract';
 
 export class UserController implements RestControllerContract {
+  protected service: UserService;
+  constructor() {
+    this.service = new UserService(new UserRepository());
+  }
   async listAll(req: Request, res: Response) {
-    const listUsersUseCase = new ListUsersUseCase(new UserRepository());
-    const users = await listUsersUseCase.execute(req.body);
+    console.log(this.service);
+    const users = await this.service.listAll(req.body);
     res.status(200).json(users);
   }
   async getById(req: Request, res: Response) {
     try {
-      const useCase = new FindUserUserCase(new UserRepository());
-      const users = await useCase.execute(req.params.id);
+      const users = await this.service.findUser(req.params.id);
       res.status(200).json(users);
     } catch (err) {
       console.log(err.name);
@@ -25,9 +27,17 @@ export class UserController implements RestControllerContract {
     }
   }
   async create(req: Request, res: Response) {
-    // const useCase = new CreateUserUseCase(new UserRepository());
-    // const users = await useCase.execute(req.params.id);
-    // res.status(200).json(users);
+    try {
+      const users = await this.service.createUser(req.body);
+      res.status(200).json(users);
+    } catch (err) {
+      console.log(err.name);
+      if (err.name === 'InvalidRegisterError') {
+        res.status(400).json({ message: err.message });
+      } else {
+        res.status(500).json({ message: err.message });
+      }
+    }
   }
   update(req: Request, res: Response) {}
   remove(req: Request, res: Response) {}
