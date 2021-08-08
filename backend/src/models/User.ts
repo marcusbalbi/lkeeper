@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-
+import bcrypt from 'bcrypt';
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn()
@@ -9,7 +9,11 @@ export class User {
   email: string;
 
   @Column({
-    select: false,
+    select: true,
   })
   password: string;
+
+  async hash(password): Promise<string> {
+    return bcrypt.hash(password, 10);
+  }
 }

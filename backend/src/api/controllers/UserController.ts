@@ -1,42 +1,36 @@
-import { UserRepository } from '@src/database/repositories/UserRepository';
-import { UserService } from '@src/services/UserService';
+import { User } from '@src/models/User';
 import { Request, Response } from 'express';
+import { getRepository, Repository } from 'typeorm';
 import RestControllerContract from '../contracts/RestControllerContract';
 
 export class UserController implements RestControllerContract {
-  protected service: UserService;
+  protected repository: Repository<User>;
   constructor() {
-    this.service = new UserService(new UserRepository());
+    this.repository = getRepository(User);
   }
   async listAll(req: Request, res: Response) {
-    console.log(this.service);
-    const users = await this.service.listAll(req.body);
+    const users = await this.repository.find(req.body);
     res.status(200).json(users);
   }
   async getById(req: Request, res: Response) {
     try {
-      const users = await this.service.findUser(req.params.id);
+      const users = await this.repository.findOneOrFail(req.params.id);
       res.status(200).json(users);
     } catch (err) {
-      console.log(err.name);
-      if (err.name === 'RegisterNotFoundError') {
-        res.status(404).json({ message: 'User not found: ' + err.message });
-      } else {
-        res.status(500).json({ message: err.message });
-      }
+      res.status(404).json({ message: 'User not found: ' + err.message });
     }
   }
   async create(req: Request, res: Response) {
     try {
-      const users = await this.service.createUser(req.body);
-      res.status(200).json(users);
+      const { email, password } = req.body;
+      const user = new User();
+      user.email = email;
+      user.password = await user.hash(password);
+      console.log(user);
+      await this.repository.save(user);
+      res.status(200).json(user);
     } catch (err) {
-      console.log(err.name);
-      if (err.name === 'InvalidRegisterError') {
-        res.status(400).json({ message: err.message });
-      } else {
-        res.status(500).json({ message: err.message });
-      }
+      res.status(500).json({ message: err.message });
     }
   }
   update(req: Request, res: Response) {}

@@ -11,7 +11,7 @@ const connection = createConnection({
   username: 'root',
   password: 'root',
   database: 'lkeeper',
-  entities: ['src/database/entities/*.ts'],
+  entities: ['src/models/*.ts'],
   migrations: ['migration/*.ts'],
   cli: {
     migrationsDir: 'migration',
@@ -19,13 +19,13 @@ const connection = createConnection({
 });
 connection.then(() => {
   console.log('connected do database');
+  app.use('/users', userRoutes());
 });
 app.use(morgan(':method :url :status :response-time ms'));
 app.use(express.json());
 app.get('/', (req, res) => {
   res.json({ message: 'LKeeper api' });
 });
-app.use('/users', userRoutes);
 
 app.listen(3000, () => {
   console.log('Listening on 3000');
