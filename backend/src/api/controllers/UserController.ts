@@ -18,7 +18,11 @@ export class UserController implements RestControllerContract {
       const users = await this.repository.findOneOrFail(req.params.id);
       res.status(200).json(users);
     } catch (err) {
-      res.status(404).json({ message: 'User not found: ' + err.message });
+      if (err.name === 'EntityNotFoundError') {
+        res.status(404).json({ message: err.message });
+      } else {
+        res.status(500).json({ message: err.message });
+      }
     }
   }
   async create(req: Request, res: Response) {
@@ -31,8 +35,11 @@ export class UserController implements RestControllerContract {
       await this.repository.save(user);
       res.status(200).json(user);
     } catch (err) {
-      console.log(err.name);
-      res.status(500).json({ errors: err });
+      if (Array.isArray(err)) {
+        res.status(400).json({ message: 'failed to validate data', errors: err });
+      } else {
+        res.status(500).json({ message: err.message });
+      }
     }
   }
   async update(req: Request, res: Response) {
@@ -45,7 +52,13 @@ export class UserController implements RestControllerContract {
       await this.repository.save(user);
       res.status(204).json();
     } catch (err) {
-      res.status(500).json({ message: err.message });
+      if (Array.isArray(err)) {
+        res.status(400).json({ message: 'failed to validate data', errors: err });
+      } else if (err.name === 'EntityNotFoundError') {
+        res.status(404).json({ message: err.message });
+      } else {
+        res.status(500).json({ message: err.message });
+      }
     }
   }
   async remove(req: Request, res: Response) {
