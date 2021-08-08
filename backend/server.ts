@@ -17,6 +17,9 @@ const connection = createConnection({
     migrationsDir: 'migration',
   },
 });
+connection.then(() => {
+  console.log('connected do database');
+});
 app.use(morgan(':method :url :status :response-time ms'));
 app.use(express.json());
 app.get('/', (req, res) => {
