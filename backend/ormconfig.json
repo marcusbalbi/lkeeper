@@ -1,12 +1,12 @@
 {
   "type": "mysql",
-  "host": "database",
+  "host": "database_mysql",
   "port": 3306,
   "username": "root",
   "password": "root",
   "database": "lkeeper",
   "entities": ["entity/*.js"],
-  "migrations": ["migration/*.js"],
+  "migrations": ["migration/*.ts"],
   "cli": {
     "migrationsDir": "migration"
   }

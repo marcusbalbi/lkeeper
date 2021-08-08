@@ -19,6 +19,26 @@ services:
       - "./:/var/www/app"
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"
+  database_mysql:
+    image: mysql:5.7.29
+    command: --innodb-use-native-aio=0
+    restart: always
+    ports: 
+      - "3306"
+    volumes:
+      - ./.docker/dbdata:/var/lib/mysql
+    environment: 
+      MYSQL_DATABASE: lkeeper
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - lkeeper_network
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    networks:
+      - lkeeper_network
 networks:
   lkeeper_network:
     driver: bridge
