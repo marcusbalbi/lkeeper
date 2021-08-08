@@ -5,7 +5,7 @@
   "username": "root",
   "password": "root",
   "database": "lkeeper",
-  "entities": ["entity/*.js"],
+  "entities": ["src/database/entities/*.ts"],
   "migrations": ["migration/*.ts"],
   "cli": {
     "migrationsDir": "migration"

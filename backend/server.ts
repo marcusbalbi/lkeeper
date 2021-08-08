@@ -1,11 +1,22 @@
 import userRoutes from '@src/api/routes/user.routes';
 import express from 'express';
 import morgan from 'morgan';
-// import connectionFactory from './src/infra/db/connection';
+import { createConnection } from 'typeorm';
 
 const app = express();
-
-// connectionFactory('app.db').then(() => console.log('connected'));
+const connection = createConnection({
+  type: 'mysql',
+  host: 'database_mysql',
+  port: 3306,
+  username: 'root',
+  password: 'root',
+  database: 'lkeeper',
+  entities: ['src/database/entities/*.ts'],
+  migrations: ['migration/*.ts'],
+  cli: {
+    migrationsDir: 'migration',
+  },
+});
 app.use(morgan(':method :url :status :response-time ms'));
 app.use(express.json());
 app.get('/', (req, res) => {
