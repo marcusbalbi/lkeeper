@@ -5,7 +5,7 @@
   "scripts": {
     "start": "ts-node-dev -r tsconfig-paths/register server.ts --respawn --transpalyOnly",
     "test": "jest",
-    "typeorm": "ts-node --transpile-only ./node_modules/typeorm/cli.js ",
+    "typeorm": "ts-node --transpile-only ./node_modules/.bin/typeorm ",
     "lint": "eslint ./src"
   },
   "dependencies": {

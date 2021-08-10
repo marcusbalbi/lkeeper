@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import { IsNotEmpty } from 'class-validator';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -6,23 +6,29 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  JoinColumn,
 } from 'typeorm';
-import { IsEmail } from 'class-validator';
-import { Link } from './Link';
+import { User } from './User';
 
-@Entity('users')
-export class User {
+@Entity('links')
+export class Link {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  @IsEmail()
-  email: string;
+  @IsNotEmpty()
+  title: string;
+
+  @Column()
+  @IsNotEmpty()
+  link: string;
 
   @Column({
-    select: false,
+    name: 'user_id',
   })
-  password: string;
+  @OneToMany(() => User, (user) => user)
+  @JoinColumn({ name: 'user_id' })
+  user_id: number;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
   public created_at: Date;
@@ -33,13 +39,4 @@ export class User {
     onUpdate: 'CURRENT_TIMESTAMP(6)',
   })
   public updated_at: Date;
-
-  async setPassword(password) {
-    const hash = await bcrypt.hash(password, 10);
-    this.password = hash;
-  }
-
-  async compare(password): Promise<boolean> {
-    return bcrypt.compare(password, this.password);
-  }
 }
