@@ -1,5 +1,4 @@
 import { User } from '@src/models/User';
-import { validateOrReject } from 'class-validator';
 import { Request, Response } from 'express';
 import { getRepository, Repository } from 'typeorm';
 import jwt from 'jsonwebtoken';

@@ -3,7 +3,7 @@ import AuthRoutes from '@src/api/routes/auth.routes';
 import express from 'express';
 import morgan from 'morgan';
 import { createConnection } from 'typeorm';
-
+import AuthMiddleware from '@src/api/middlewares/AuthMiddleware';
 const app = express();
 const connection = createConnection({
   type: 'mysql',
@@ -21,7 +21,7 @@ const connection = createConnection({
 connection.then(() => {
   console.log('connected do database');
   app.use('/', AuthRoutes());
-  app.use('/users', userRoutes());
+  app.use('/users', AuthMiddleware, userRoutes());
 });
 app.use(morgan(':method :url :status :response-time ms'));
 app.use(express.json());
