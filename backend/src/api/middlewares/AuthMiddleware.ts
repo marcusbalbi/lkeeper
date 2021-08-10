@@ -9,7 +9,7 @@ const AuthMiddleware = (req: Request, res: Response, next) => {
     const token = req.headers.authorization.split('Bearer ')[1]; //take only the token
 
     const result: any = jwt.verify(token, jwtConfig.secret);
-    req.user = result;
+    req.auth = result;
     next();
   } catch (err) {
     return res.status(403).json({ message: 'User not Authenticated or Invalid Token' });

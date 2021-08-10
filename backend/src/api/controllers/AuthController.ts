@@ -11,11 +11,16 @@ export class AuthController {
   }
   async login(req: Request, res: Response) {
     try {
-      const user = await this.repository.findOneOrFail({ where: { email: req.body.email } });
+      const user = await this.repository.findOneOrFail({
+        where: { email: req.body.email },
+        select: ['password', 'email', 'id'],
+      });
+
       const valid = await user.compare(req.body.password);
       if (!valid) {
         throw new Error('Email or password incorrect');
       }
+      delete user.password;
       const token = jwt.sign(
         {
           user,
