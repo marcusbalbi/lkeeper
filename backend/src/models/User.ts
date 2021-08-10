@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -5,10 +6,8 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
 import { IsEmail } from 'class-validator';
 
-import bcrypt from 'bcrypt';
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn()
