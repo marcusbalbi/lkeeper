@@ -4,7 +4,7 @@ services:
     build:
       dockerfile: ./.docker/app.dockerfile
       context: .
-    entrypoint: ./.docker/entrypoint.sh
+    entrypoint: dockerize -wait tcp://database_mysql:3306 -timeout 120s ./.docker/entrypoint.sh
     container_name: lkeeper_backend
     networks:
       - lkeeper_network
@@ -19,6 +19,8 @@ services:
       - "./:/var/www/app"
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"
+    depends_on:
+      - database_mysql
   database_mysql:
     image: mysql:5.7.29
     command: --innodb-use-native-aio=0
@@ -39,6 +41,8 @@ services:
       - 8080:8080
     networks:
       - lkeeper_network
+    depends_on:
+      - database_mysql
 networks:
   lkeeper_network:
     driver: bridge
