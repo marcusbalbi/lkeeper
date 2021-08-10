@@ -1,3 +1,4 @@
+import CryptoJS from 'crypto-js';
 import { IsNotEmpty } from 'class-validator';
 import {
   Entity,
@@ -5,8 +6,8 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToMany,
   JoinColumn,
+  ManyToOne,
 } from 'typeorm';
 import { User } from './User';
 
@@ -23,11 +24,10 @@ export class Link {
   @IsNotEmpty()
   link: string;
 
-  @Column({
-    name: 'user_id',
-  })
-  @OneToMany(() => User, (user) => user)
+  @Column()
+  @ManyToOne(() => User, (user) => user)
   @JoinColumn({ name: 'user_id' })
+  @IsNotEmpty()
   user_id: number;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
@@ -39,4 +39,25 @@ export class Link {
     onUpdate: 'CURRENT_TIMESTAMP(6)',
   })
   public updated_at: Date;
+
+  public static createEncryptedLink(user: User, title: string, url: string): Link {
+    const link = new Link();
+    link.title = CryptoJS.AES.encrypt(title, user.getUserKey()).toString();
+    link.link = CryptoJS.AES.encrypt(url, user.getUserKey()).toString();
+    link.user_id = user.id;
+    return link;
+  }
+
+  public encryptLink(user: User): Link {
+    this.title = CryptoJS.AES.encrypt(this.title, user.getUserKey()).toString();
+    this.link = CryptoJS.AES.encrypt(this.link, user.getUserKey()).toString();
+
+    return this;
+  }
+  public decryptLink(user: User): Link {
+    this.title = CryptoJS.AES.decrypt(this.title, user.getUserKey()).toString(CryptoJS.enc.Utf8);
+    this.link = CryptoJS.AES.decrypt(this.link, user.getUserKey()).toString(CryptoJS.enc.Utf8);
+
+    return this;
+  }
 }

@@ -42,4 +42,16 @@ export class User {
   async compare(password): Promise<boolean> {
     return bcrypt.compare(password, this.password);
   }
+
+  getUserKey(): string {
+    return `${this.id}.${this.email}`;
+  }
+
+  public static create(data: any): User {
+    const user = new User();
+    user.id = data.id;
+    user.email = data.email;
+
+    return user;
+  }
 }
