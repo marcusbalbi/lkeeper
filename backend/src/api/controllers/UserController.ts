@@ -33,6 +33,7 @@ export class UserController implements RestControllerContract {
       await user.setPassword(password);
       await this.validate(user);
       await this.repository.save(user);
+      delete user.password;
       res.status(200).json(user);
     } catch (err) {
       if (Array.isArray(err)) {

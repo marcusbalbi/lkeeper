@@ -6,11 +6,13 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  Unique,
 } from 'typeorm';
 import { IsEmail } from 'class-validator';
 import { Link } from './Link';
 
 @Entity('users')
+@Unique(['email'])
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -44,7 +46,8 @@ export class User {
   }
 
   getUserKey(): string {
-    return `${this.id}.${this.email}`;
+    // TODO change APP_KEY to a KEY GENERATED TO THE USER
+    return `${process.env.APP_KEY}.${this.id}.${this.email}`;
   }
 
   public static create(data: any): User {
