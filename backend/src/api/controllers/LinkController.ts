@@ -87,8 +87,11 @@ export class LinkController {
 
   async remove(req: Request, res: Response) {
     try {
-      await this.repository.delete(req.params.id);
-      // remove all links from user ?
+      const user = User.create(req.auth.user);
+      await this.repository.delete({
+        user_id: user.id,
+        id: Number(req.params.id),
+      });
       res.status(204).json();
     } catch (err) {
       res.status(500).json({ message: err.message });
