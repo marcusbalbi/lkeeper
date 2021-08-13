@@ -5,12 +5,13 @@
     "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
+      "@root/*": ["./*"],
       "@src/*": ["./src/*"]
     },
     "rootDirs": ["./src/**/"],
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "typeRoots": ["./src/types/"],
+    "typeRoots": ["./src/types/"]
   }
 }

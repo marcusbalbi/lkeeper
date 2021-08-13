@@ -4,13 +4,14 @@ const { compilerOptions } = require('./tsconfig.json');
 module.exports = {
   rootDir: './',
   testEnvironment: 'node',
-  // globalSetup: './common/tests/globalSetup.ts',
-  // setupFilesAfterEnv: ['./common/tests/setup.ts'],
-  coverageDirectory: '../tests/coverage',
-  collectCoverage: false,
-  coverageReporters: ['html'],
+  // globalSetup: './tests/globalSetup.ts',
+  // setupFiles: ['./tests/setup.ts'],
+  // coverageDirectory: './tests/coverage',
+  // collectCoverage: true,
+  // coverageReporters: ['html'],
   preset: 'ts-jest',
   moduleNameMapper: {
-    '^@src(.*)$': '<rootDir>/$1',
+    '^@root(.*)$': '<rootDir>/$1',
+    '^@src/(.*)$': '<rootDir>/src/$1',
   },
 };
