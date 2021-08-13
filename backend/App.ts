@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Express } from 'express';
 import morgan from 'morgan';
 import ConnectionFactory from '@src/database/ConnectionFactory';
 import UserRoutes from '@src/api/routes/user.routes';
@@ -7,20 +7,15 @@ import LinkRoutes from '@src/api/routes/link.routes';
 import AuthMiddleware from '@src/api/middlewares/AuthMiddleware';
 
 export default class ApplicationApi {
-  private app;
+  private app: Express;
   constructor() {
     this.app = express();
     this.addBaseMiddlewares();
   }
-  public async start(port, cb = null) {
+  public async start(): Promise<Express> {
     await ConnectionFactory.createConnection();
     this.defineRoutes();
-    this.app.listen(port, () => {
-      console.log(`Listening on ${port}`);
-      if (typeof cb === 'function') {
-        cb(this.app);
-      }
-    });
+    return this.app;
   }
   private defineRoutes() {
     this.app.use('/', AuthRoutes());
