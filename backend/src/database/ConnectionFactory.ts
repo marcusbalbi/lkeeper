@@ -1,8 +1,6 @@
 import { Connection, createConnection } from 'typeorm';
-import dbConfig from '../config/database';
-
 export default class ConnectionFactory {
-  public static createConnection(): Promise<Connection> {
+  public static createConnection(dbConfig): Promise<Connection> {
     return createConnection(dbConfig);
   }
 }

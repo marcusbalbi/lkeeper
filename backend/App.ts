@@ -12,8 +12,8 @@ export default class ApplicationApi {
     this.app = express();
     this.addBaseMiddlewares();
   }
-  public async start(): Promise<Express> {
-    await ConnectionFactory.createConnection();
+  public async start(dbConfig): Promise<Express> {
+    await ConnectionFactory.createConnection(dbConfig);
     this.defineRoutes();
     return this.app;
   }
