@@ -5,6 +5,7 @@
   "scripts": {
     "start": "ts-node-dev -r tsconfig-paths/register server.ts --respawn --transpalyOnly",
     "test": "jest",
+    "test:prepare": "ts-node --transpile-only ./tests/prepareDatabase.ts ",
     "typeorm": "ts-node --transpile-only ./node_modules/.bin/typeorm ",
     "lint": "eslint ./src"
   },
