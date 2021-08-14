@@ -5,11 +5,16 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToMany,
   Unique,
 } from 'typeorm';
 import { IsEmail } from 'class-validator';
-import { Link } from './Link';
+
+export class IncorrectPassword extends Error {
+  constructor(message?: string) {
+    super(message);
+    this.name = 'IncorrectPassword';
+  }
+}
 
 @Entity('users')
 @Unique(['email'])
