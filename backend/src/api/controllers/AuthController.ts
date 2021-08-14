@@ -30,6 +30,11 @@ export class AuthController {
       );
       res.status(200).json({ token });
     } catch (err) {
+      if (err.name === 'EntityNotFoundError') {
+        return res.status(403).json({
+          message: 'User not found!',
+        });
+      }
       res.status(500).json({ message: err.message });
     }
   }
