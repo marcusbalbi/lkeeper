@@ -5,7 +5,7 @@
   "scripts": {
     "start": "ts-node-dev -r tsconfig-paths/register server.ts --respawn --transpalyOnly",
     "test": "jest",
-    "test:prepare": "ts-node --transpile-only ./tests/prepareDatabase.ts ",
+    "test:migrate": "ts-node --transpile-only ./node_modules/.bin/typeorm migration:run -c testing",
     "typeorm": "ts-node --transpile-only ./node_modules/.bin/typeorm ",
     "lint": "eslint ./src"
   },
@@ -46,7 +46,7 @@
     "supertest": "^3.4.2",
     "ts-jest": "^26.5.6",
     "tsconfig-paths": "^3.9.0",
-    "typescript": "^3.9.7",
+    "typescript": "^3.9.10",
     "typescript-eslint": "0.0.1-alpha.0"
   }
 }

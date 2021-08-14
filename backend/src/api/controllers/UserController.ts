@@ -38,6 +38,8 @@ export class UserController implements RestControllerContract {
     } catch (err) {
       if (Array.isArray(err)) {
         res.status(400).json({ message: 'failed to validate data', errors: err });
+      } else if (err.name === 'QueryFailedError' && err.message.includes('ER_DUP_ENTRY')) {
+        res.status(400).json({ message: 'Email already exists', errors: err });
       } else {
         res.status(500).json({ message: err.message });
       }
@@ -45,9 +47,10 @@ export class UserController implements RestControllerContract {
   }
   async update(req: Request, res: Response) {
     try {
-      const user = await this.repository.findOneOrFail(req.params.id);
-      const { email, password } = req.body;
-      user.email = email;
+      // a user can only update its informations only password for
+      const user = User.create(req.auth.user); //await this.repository.findOneOrFail(req.params.id);
+      const { password } = req.body;
+      // user.email = email;
       await user.setPassword(password);
       await this.validate(user);
       await this.repository.save(user);
@@ -64,9 +67,10 @@ export class UserController implements RestControllerContract {
   }
   async remove(req: Request, res: Response) {
     try {
-      await this.repository.delete(req.params.id);
-      // remove all links from user ?
-      res.status(204).json();
+      res.status(404).json({ message: 'NOT IMPLEMENTED!' });
+      // await this.repository.delete(req.params.id);
+      // // remove all links from user ?
+      // res.status(204).json();
     } catch (err) {
       res.status(500).json({ message: err.message });
     }

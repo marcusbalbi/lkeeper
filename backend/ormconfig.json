@@ -1,13 +1,30 @@
-{
-  "type": "mysql",
-  "host": "database_mysql",
-  "port": 3306,
-  "username": "root",
-  "password": "root",
-  "database": "lkeeper",
-  "entities": ["src/models/*.ts"],
-  "migrations": ["migration/*.ts"],
-  "cli": {
-    "migrationsDir": "migration"
+[
+  {
+    "name": "default",
+    "type": "mysql",
+    "host": "database_mysql",
+    "port": 3306,
+    "username": "root",
+    "password": "root",
+    "database": "lkeeper",
+    "entities": ["src/models/*.ts"],
+    "migrations": ["migration/*.ts"],
+    "cli": {
+      "migrationsDir": "migration"
+    }
+  },
+  {
+    "name": "testing",
+    "type": "mysql",
+    "host": "database_mysql",
+    "port": 3306,
+    "username": "root",
+    "password": "root",
+    "database": "lkeeper_test",
+    "entities": ["src/models/*.ts"],
+    "migrations": ["migration/*.ts"],
+    "cli": {
+      "migrationsDir": "migration"
+    }
   }
-}
+]
