@@ -4,6 +4,8 @@ const { createConnection } = require('typeorm');
 const setup = async (): Promise<void> => {
   const connection = await createConnection('testing');
   console.log('TEST DATABASE CONNECTED ');
+  await connection.manager.query(`DELETE FROM links`);
+  console.log('ALL LINK REMOVED!');
   await connection.manager.query(`DELETE FROM users`);
   console.log('ALL USERS REMOVED!');
 };
