@@ -2,9 +2,8 @@ import { User } from '@src/models/User';
 import { validateOrReject } from 'class-validator';
 import { Request, Response } from 'express';
 import { getRepository, Repository } from 'typeorm';
-import RestControllerContract from '../contracts/RestControllerContract';
 
-export class UserController implements RestControllerContract {
+export class UserController {
   protected repository: Repository<User>;
   constructor() {
     this.repository = getRepository(User);
