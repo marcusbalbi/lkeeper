@@ -5,7 +5,7 @@ import AuthRoutes from '@src/api/routes/auth.routes';
 import LinkRoutes from '@src/api/routes/link.routes';
 import AuthMiddleware from '@src/api/middlewares/AuthMiddleware';
 import { createConnection } from 'typeorm';
-
+import cors from 'cors';
 export default class ApplicationApi {
   private app: Express;
   constructor() {
@@ -28,5 +28,6 @@ export default class ApplicationApi {
   addBaseMiddlewares() {
     this.app.use(morgan(':method :url :status :response-time ms'));
     this.app.use(express.json());
+    this.app.use(cors());
   }
 }

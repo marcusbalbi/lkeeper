@@ -1,7 +1,7 @@
 import { SIGN_IN, SIGN_OUT } from "../types";
 
 const INITIAL_STATE = {
-  isLoggedIn: true,
+  isLoggedIn: false,
   user: null,
 };
 const authReducer = (state = INITIAL_STATE, action) => {
