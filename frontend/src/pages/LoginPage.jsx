@@ -3,8 +3,10 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { signIn } from "../store/actions";
 import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 const LoginPage = () => {
   const [loading, setLoading] = useState(false);
+  const history = useHistory();
   const dispatch = useDispatch();
   const {
     register,
@@ -16,6 +18,7 @@ const LoginPage = () => {
     try {
       setLoading(true);
       await dispatch(signIn(data.email, data.password));
+      history.push("/");
       setLoading(false);
     } catch (err) {
       console.log(err.message);
@@ -32,6 +35,7 @@ const LoginPage = () => {
           <div className="control">
             <input
               {...register("email", { required: true })}
+              defaultValue="balbimarcus@gmail.com"
               className="input"
               type="email"
               placeholder="e.g. alex@example.com"
@@ -45,6 +49,7 @@ const LoginPage = () => {
           <div className="control">
             <input
               {...register("password", { required: true })}
+              defaultValue="abc123"
               className="input"
               type="password"
               placeholder="********"

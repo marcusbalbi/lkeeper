@@ -1,11 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import {
-  BrowserRouter,
-  Redirect,
-  Route,
-  Switch,
-} from "react-router-dom";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import Navbar from "./components/Navbar";
 import LoginPage from "./pages/LoginPage";
 
 const App = () => {
@@ -20,15 +16,19 @@ const App = () => {
 
   return (
     <BrowserRouter>
+      {auth.isLoggedIn && <Navbar />}
       <Switch>
         <Route path="/login" exact>
-          {auth.isLoggedIn ? <Redirect to="/" /> : <LoginPage />}
+          <LoginPage />
         </Route>
         <ProtectedRoute path="/" exact>
           <h1>Bem vindo!</h1>
         </ProtectedRoute>
-        <ProtectedRoute path="/teste" exact>
-          <h1>Bem vindo ao teste!!</h1>
+        <ProtectedRoute path="/links" exact>
+          <h1>Bem vindo aos Links!!</h1>
+        </ProtectedRoute>
+        <ProtectedRoute path="/users" exact>
+          <h1>Bem vindo aos Users!!</h1>
         </ProtectedRoute>
       </Switch>
     </BrowserRouter>
