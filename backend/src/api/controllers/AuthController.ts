@@ -25,7 +25,7 @@ export class AuthController {
       const token = jwt.sign(
         {
           user,
-          exp: jwtConfig.exp_time,
+          // exp: jwtConfig.exp_time,
         },
         jwtConfig.secret,
       );

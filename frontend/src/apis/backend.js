@@ -1,5 +1,17 @@
 import axios from "axios";
-
-export default axios.create({
+const request = axios.create({
   baseURL: "http://localhost:3000",
 });
+
+const createAuthRequest = (token) => {
+  return axios.create({
+    baseURL: "http://localhost:3000",
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export { createAuthRequest, request };
+
+export default request;

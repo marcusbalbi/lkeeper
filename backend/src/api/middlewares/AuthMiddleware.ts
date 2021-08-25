@@ -12,7 +12,9 @@ const AuthMiddleware = (req: Request, res: Response, next) => {
     req.auth = result;
     next();
   } catch (err) {
-    return res.status(403).json({ message: 'User not Authenticated or Invalid Token' });
+    return res
+      .status(403)
+      .json({ message: 'User not Authenticated or Invalid Token', extra_message: err.message });
   }
 };
 
