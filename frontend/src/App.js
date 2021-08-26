@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import LoginPage from "./pages/LoginPage";
-import SearchLinkPage from "./pages/SearchLinksPage";
+import LinksPage from "./pages/LinksPage";
 
 const App = () => {
   const auth = useSelector((state) => state.auth);
@@ -26,7 +26,7 @@ const App = () => {
           <h1>Bem vindo!</h1>
         </ProtectedRoute>
         <ProtectedRoute path="/links" exact>
-          <SearchLinkPage />
+          <LinksPage />
         </ProtectedRoute>
         <ProtectedRoute path="/users" exact>
           <h1>Bem vindo aos Users!!</h1>

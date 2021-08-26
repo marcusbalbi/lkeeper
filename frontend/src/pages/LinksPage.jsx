@@ -1,15 +1,29 @@
 import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import PageContainer from "../components/PageContainer";
-import { getLinks } from "../store/actions";
+import { addLink, getLinks } from "../store/actions";
 
-const SearchLinkPage = () => {
+const LinksPage = () => {
   const dispatch = useDispatch();
   const links = useSelector((state) => state.links.links);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = async (data) => {
+    try {
+      await dispatch(addLink(data));
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
   useEffect(() => {
     dispatch(getLinks(""));
-  }, [dispatch]);
+  }, [links, dispatch]);
 
   const renderRows = () => {
     return links.map((link) => {
@@ -28,17 +42,27 @@ const SearchLinkPage = () => {
 
   return (
     <PageContainer>
-      <form className="mb-4">
+      <form className="mb-4" onSubmit={handleSubmit(onSubmit)}>
         <div className="field is-horizontal">
           <div className="field-body">
             <div className="field">
               <div className="control">
-                <input className="input " type="text" placeholder="Title" />
+                <input
+                  className="input "
+                  type="text"
+                  placeholder="Title"
+                  {...register("title", { required: true })}
+                />
               </div>
             </div>
             <div className="field">
               <div className="control">
-                <input className="input " type="text" placeholder="Link" />
+                <input
+                  className="input "
+                  type="text"
+                  placeholder="Link"
+                  {...register("link", { required: true })}
+                />
               </div>
             </div>
             <button className="button is-success">Add</button>
@@ -46,12 +70,16 @@ const SearchLinkPage = () => {
         </div>
       </form>
       <table className="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
-        <th># ID</th>
-        <th># Link</th>
-        {renderRows()}
+        <thead>
+          <tr>
+            <th># ID</th>
+            <th># Link</th>
+          </tr>
+        </thead>
+        <tbody>{renderRows()}</tbody>
       </table>
     </PageContainer>
   );
 };
 
-export default SearchLinkPage;
+export default LinksPage;

@@ -16,7 +16,7 @@ const Navbar = () => {
           <h1 className="title has-text-white">LKeeper</h1>
         </Link>
       </div>
-      <div class="navbar-start">
+      <div className="navbar-start">
         <Link className="navbar-item" to="/links">
           Links
         </Link>
@@ -24,7 +24,7 @@ const Navbar = () => {
           User
         </Link>
       </div>
-      <div class="navbar-end">
+      <div className="navbar-end">
         <span className="navbar-item">
           <button
             onClick={() => {
