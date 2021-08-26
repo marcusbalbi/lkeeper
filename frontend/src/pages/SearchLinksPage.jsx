@@ -1,48 +1,54 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { createAuthRequest } from "../apis/backend";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import PageContainer from "../components/PageContainer";
+import { getLinks } from "../store/actions";
 
 const SearchLinkPage = () => {
-  const auth = useSelector((state) => state.auth);
-  const request = createAuthRequest(auth.user.token);
+  const dispatch = useDispatch();
+  const links = useSelector((state) => state.links.links);
 
-  request.get("/links").then(console.log);
+  useEffect(() => {
+    dispatch(getLinks(""));
+  }, [dispatch]);
+
+  const renderRows = () => {
+    return links.map((link) => {
+      return (
+        <tr key={link.id}>
+          <td>{link.id}</td>
+          <td>
+            <a rel="noreferrer" target="_blank" href={link.link}>
+              {link.title}
+            </a>
+          </td>
+        </tr>
+      );
+    });
+  };
 
   return (
     <PageContainer>
-      <div className="field">
-        <div className="control is-expanded is-loading is-medium">
-          <input
-            className="input is-medium "
-            type="text"
-            placeholder="digite para buscar um link"
-          />
+      <form className="mb-4">
+        <div className="field is-horizontal">
+          <div className="field-body">
+            <div className="field">
+              <div className="control">
+                <input className="input " type="text" placeholder="Title" />
+              </div>
+            </div>
+            <div className="field">
+              <div className="control">
+                <input className="input " type="text" placeholder="Link" />
+              </div>
+            </div>
+            <button className="button is-success">Add</button>
+          </div>
         </div>
-      </div>
+      </form>
       <table className="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
-        <thead>
-          <th># ID</th>
-          <th># Title</th>
-          <th># Link</th>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>teste</td>
-            <td>teste</td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>teste</td>
-            <td>teste</td>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td>teste</td>
-            <td>teste</td>
-          </tr>
-        </tbody>
+        <th># ID</th>
+        <th># Link</th>
+        {renderRows()}
       </table>
     </PageContainer>
   );
