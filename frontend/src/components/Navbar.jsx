@@ -26,6 +26,18 @@ const Navbar = () => {
       </div>
       <div className="navbar-end">
         <span className="navbar-item">
+          <div className="mr-2">
+            <button
+              onClick={() => {
+                
+              }}
+              className="button is-dark"
+            >
+              <span class="icon is-small">
+                <i class="fas fa-eye"></i>
+              </span>
+            </button>
+          </div>
           <button
             onClick={() => {
               dispatch(signOut());

@@ -16,6 +16,7 @@ const LinksPage = () => {
   const onSubmit = async (data) => {
     try {
       await dispatch(addLink(data));
+      dispatch(getLinks(""));
     } catch (err) {
       console.log(err.message);
     }
@@ -23,7 +24,7 @@ const LinksPage = () => {
 
   useEffect(() => {
     dispatch(getLinks(""));
-  }, [links, dispatch]);
+  }, [dispatch]);
 
   const renderRows = () => {
     return links.map((link) => {
@@ -72,7 +73,7 @@ const LinksPage = () => {
       <table className="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
         <thead>
           <tr>
-            <th># ID</th>
+            <th style={{ width: "20%" }}># ID</th>
             <th># Link</th>
           </tr>
         </thead>
