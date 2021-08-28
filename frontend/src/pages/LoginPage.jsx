@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { signIn } from "../store/actions";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
+import FormInputText from "../components/FormInputText";
 const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -25,38 +26,32 @@ const LoginPage = () => {
       setLoading(false);
     }
   };
-
+  console.log(errors);
   return (
     <div className="container ">
       <h1 className="title">Welcome to LKeeper</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="box">
-        <div className="field">
-          <label className="label">Email</label>
-          <div className="control">
-            <input
-              {...register("email", { required: true })}
-              defaultValue="balbimarcus@gmail.com"
-              className="input"
-              type="email"
-              placeholder="e.g. alex@example.com"
-            />
-            {errors.email && <span>This field is required</span>}
-          </div>
-        </div>
+        <FormInputText
+          labelText="Email"
+          isInvalid={errors.email}
+          errorMessage={errors.email && "Email is Required!"}
+          inputProps={{
+            ...register("email", { required: true }),
+            type: "email",
+            placeholder: "e.g. alex@example.com",
+          }}
+        />
 
-        <div className="field">
-          <label className="label">Password</label>
-          <div className="control">
-            <input
-              {...register("password", { required: true })}
-              defaultValue="abc123"
-              className="input"
-              type="password"
-              placeholder="********"
-            />
-            {errors.password && <span>This field is required</span>}
-          </div>
-        </div>
+        <FormInputText
+          inputProps={{
+            ...register("password", { required: true }),
+            type: "password",
+            placeholder: "********",
+          }}
+          labelText="Password"
+          isInvalid={errors.password}
+          errorMessage={errors.password && "Password is Required!"}
+        />
 
         <button
           type="submit"
