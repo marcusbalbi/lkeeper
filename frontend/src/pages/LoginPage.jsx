@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import FormInputText from "../components/FormInputText";
 import PageContainer from "../components/PageContainer";
+import { useEffect } from "react";
+import toastr from "toastr";
 const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -24,10 +26,10 @@ const LoginPage = () => {
       setLoading(false);
     } catch (err) {
       console.log(err.message);
+      toastr.error(err.message, "Erro");
       setLoading(false);
     }
   };
-  console.log(errors);
   return (
     <PageContainer>
       <h1 className="title">Welcome to LKeeper</h1>

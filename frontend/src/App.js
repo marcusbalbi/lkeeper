@@ -4,7 +4,26 @@ import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import LoginPage from "./pages/LoginPage";
 import LinksPage from "./pages/LinksPage";
+import "toastr/build/toastr.css";
+import toastr from "toastr";
 
+toastr.options = {
+  closeButton: true,
+  debug: false,
+  newestOnTop: false,
+  progressBar: true,
+  positionClass: "toast-bottom-center",
+  preventDuplicates: false,
+  onclick: null,
+  showDuration: "300",
+  hideDuration: "1000",
+  timeOut: "5000",
+  extendedTimeOut: "1000",
+  showEasing: "swing",
+  hideEasing: "linear",
+  showMethod: "fadeIn",
+  hideMethod: "fadeOut",
+};
 const App = () => {
   const auth = useSelector((state) => state.auth);
   const ProtectedRoute = (props) => {
