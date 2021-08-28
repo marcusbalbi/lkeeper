@@ -7,7 +7,6 @@ import LinksPage from "./pages/LinksPage";
 
 const App = () => {
   const auth = useSelector((state) => state.auth);
-  console.log(auth);
   const ProtectedRoute = (props) => {
     if (auth.isLoggedIn) {
       return <Route {...props}>{props.children}</Route>;

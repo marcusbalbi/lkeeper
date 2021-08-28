@@ -27,14 +27,9 @@ const Navbar = () => {
       <div className="navbar-end">
         <span className="navbar-item">
           <div className="mr-2">
-            <button
-              onClick={() => {
-                
-              }}
-              className="button is-dark"
-            >
-              <span class="icon is-small">
-                <i class="fas fa-eye"></i>
+            <button onClick={() => {}} className="button is-dark">
+              <span className="icon is-small">
+                <i className="fas fa-eye"></i>
               </span>
             </button>
           </div>

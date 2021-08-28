@@ -5,8 +5,19 @@ import reduxThunk from "redux-thunk";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import reducers from "./store/reducers";
+import { loadState, saveState } from "./store/persistedState";
 
-const store = createStore(reducers, applyMiddleware(reduxThunk));
+const persistedState = loadState();
+const store = createStore(
+  reducers,
+  persistedState,
+  applyMiddleware(reduxThunk)
+);
+
+store.subscribe(() => {
+  saveState(store.getState());
+});
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
