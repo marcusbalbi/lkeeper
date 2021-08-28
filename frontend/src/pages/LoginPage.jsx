@@ -25,9 +25,8 @@ const LoginPage = () => {
       history.push("/");
       setLoading(false);
     } catch (err) {
-      console.log(err.message);
-      toastr.error(err.message, "Erro");
       setLoading(false);
+      toastr.error(err.response.data.message);
     }
   };
   return (
