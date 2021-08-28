@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import FormInputText from "../components/FormInputText";
 import PageContainer from "../components/PageContainer";
 import { addLink, getLinks } from "../store/actions";
 
@@ -43,26 +44,28 @@ const LinksPage = () => {
 
   return (
     <PageContainer>
-      <form className="mb-4" onSubmit={handleSubmit(onSubmit)}>
+      <form className="mb-6" onSubmit={handleSubmit(onSubmit)}>
         <div className="field is-horizontal">
           <div className="field-body">
             <div className="field">
               <div className="control">
-                <input
-                  className="input "
+                <FormInputText
+                  className="input"
                   type="text"
                   placeholder="Title"
                   {...register("title", { required: true })}
+                  errorMessage={errors.title && "Title is Required!"}
                 />
               </div>
             </div>
             <div className="field">
               <div className="control">
-                <input
+                <FormInputText
                   className="input "
                   type="text"
                   placeholder="Link"
                   {...register("link", { required: true })}
+                  errorMessage={errors.link && "Link is Required!"}
                 />
               </div>
             </div>

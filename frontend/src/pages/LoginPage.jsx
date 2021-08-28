@@ -5,6 +5,7 @@ import { signIn } from "../store/actions";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import FormInputText from "../components/FormInputText";
+import PageContainer from "../components/PageContainer";
 const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -28,30 +29,30 @@ const LoginPage = () => {
   };
   console.log(errors);
   return (
-    <div className="container ">
+    <PageContainer>
       <h1 className="title">Welcome to LKeeper</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="box">
-        <FormInputText
-          labelText="Email"
-          isInvalid={errors.email}
-          errorMessage={errors.email && "Email is Required!"}
-          inputProps={{
-            ...register("email", { required: true }),
-            type: "email",
-            placeholder: "e.g. alex@example.com",
-          }}
-        />
+        <div className="field">
+          <label className="label">Email</label>
+          <FormInputText
+            {...register("email", { required: true })}
+            type="email"
+            placeholder="e.g. alex@example.com"
+            errorMessage={errors.email && "Email is Required!"}
+          />
+        </div>
 
-        <FormInputText
-          inputProps={{
-            ...register("password", { required: true }),
-            type: "password",
-            placeholder: "********",
-          }}
-          labelText="Password"
-          isInvalid={errors.password}
-          errorMessage={errors.password && "Password is Required!"}
-        />
+        <div className="field">
+          <label className="label">Password</label>
+          <div className="control">
+            <FormInputText
+              {...register("password", { required: true })}
+              type="password"
+              placeholder="********"
+              errorMessage={errors.password && "Password is Required!"}
+            />
+          </div>
+        </div>
 
         <button
           type="submit"
@@ -60,7 +61,7 @@ const LoginPage = () => {
           Sign in
         </button>
       </form>
-    </div>
+    </PageContainer>
   );
 };
 
